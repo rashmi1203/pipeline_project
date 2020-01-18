@@ -8,7 +8,6 @@ stages {
 						set +x
 						cd c_programs
 						echo -e "\n\n**************************** This is a Build JOB **************************** "
-
 						if [[ -x "ABC.exe" ]]; then
 							echo "STEP 1:	Cleaning existing builds ........"
 								ls *.exe | nl | sed 's/	/) /g' | tr '\n' ' ' 
@@ -21,9 +20,7 @@ stages {
 								ls *.c | nl | sed 's/	/) /g' | tr '\n' ' '
 							echo -e "\n"    
 								make
-
 						#dt=$(date +%Y-%m-%d_%H:%M:%S)
-
 						if [[ -x "./ABC.exe" ]]; then  
 							echo -e "\nSTEP 4:	Build Successful"
 							echo "       	BUILD_FILE: $(pwd)/ABC.exe"	
@@ -33,7 +30,6 @@ stages {
 							echo -e "********************************************\n"
 							exit 1
 						fi    
-
 						echo -e "\n************************************************************************** "
 				'''
 				
@@ -45,14 +41,13 @@ stages {
 				sh '''
 					set +x
 					file="$(pwd)/c_programs/ABC.exe"
-					[[ -f "$file" ]] && rm -f "$file"
-					pwd; chmod 777 build; ./build 1> /dev/null
+					[[ -f "$file" ]] && sudo rm -f "$file"
+					pwd; sudo chmod 777 build; ./build 1> /dev/null
 					
 				echo -e "\n\n**************************** This is a Deploy JOB $file **************************** "
 				if [[ -f "$file" ]]; then 
 				echo -e "\nSTEP 1: Deploying $file with default input........"
 				$file -v -i <<<"5 400 500 600"
-
 				if [ $? -eq 0 ]; then
 				  if [[ -x "$file" ]]; then  
 					  echo -e "\nSTEP 2:	Deployment Successful - Build pushed to artifactory"
@@ -79,8 +74,8 @@ stages {
 				sh '''
 				set +x
 					file="$(pwd)/c_programs/ABC.exe"
-					[[ -f "$file" ]] && rm -f "$file"
-					pwd; chmod 777 build; ./build 1> /dev/null
+					[[ -f "$file" ]] && sudo rm -f "$file"
+					pwd; sudo chmod 777 build; ./build 1> /dev/null
 					
 				echo -e "\n\n**************************** This is a Deploy JOB for $file**************************** "
 				if [[ -f "$file" ]]; then 
@@ -102,7 +97,6 @@ stages {
 						echo -e "\n      RESULT -> TEST_CASE (${count}): FAILED"
 						exit 1
 					fi
-
 					echo "-------------------------------------------------------------------"
 					((count++))
 				done
