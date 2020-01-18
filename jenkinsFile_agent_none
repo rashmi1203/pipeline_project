@@ -10,7 +10,7 @@ stages {
             }
         }
         stage('deploy') {
-			agent { label 'master' }
+			agent { label 'slave1' }
             steps {
                 echo 'Deploying to TEST environment..'
 				sh 'chmod 777 build deploy test; ./deploy'
